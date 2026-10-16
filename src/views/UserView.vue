@@ -11,7 +11,7 @@
       <el-button type="success" @click="handleAdd">添加用户</el-button>
     </div>
 
-    <el-table :data="tableData" style="width: 100%">
+    <el-table :data="pagedData" style="width: 100%">
       <el-table-column label="日期" width="240">
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
@@ -36,8 +36,8 @@
       class="pager"
       background
       layout="prev, pager, next"
-      :total="1000"
-      :page-size="10"
+      :total="tableData.length"
+      :page-size="pageSize"
       :current-page.sync="currentPage"
     ></el-pagination>
 
@@ -68,6 +68,7 @@ export default {
     return {
       keyword: '',
       currentPage: 1,
+      pageSize: 10,
       dialogVisible: false,
       form: {
         name: '',
@@ -75,11 +76,29 @@ export default {
         confirm: ''
       },
       tableData: [
-        { date: '2016-05-02', name: '王小虎', password: '123456' },
-        { date: '2016-05-04', name: '王小虎', password: '123456' },
-        { date: '2016-05-01', name: '王小虎', password: '123456' },
-        { date: '2016-05-03', name: '王小虎', password: '123456' }
+        { date: '2026-09-28', name: '陈嘉宁', password: 'cjn@2026' },
+        { date: '2026-09-25', name: '李思远', password: 'lsy#0925' },
+        { date: '2026-09-21', name: '王雨桐', password: 'wyt2026!' },
+        { date: '2026-09-18', name: '张浩然', password: 'zhr@0918' },
+        { date: '2026-09-15', name: '刘子涵', password: 'lzh#2026' },
+        { date: '2026-09-12', name: '赵欣怡', password: 'zxy2026@' },
+        { date: '2026-09-09', name: '周铭轩', password: 'zmx!0909' },
+        { date: '2026-09-06', name: '吴静雯', password: 'wjw#2026' },
+        { date: '2026-09-02', name: '郑凯文', password: 'zkw@0902' },
+        { date: '2026-08-29', name: '孙悦然', password: 'syr2026#' },
+        { date: '2026-08-26', name: '徐若彤', password: 'xrt!0826' },
+        { date: '2026-08-22', name: '何俊杰', password: 'hjj#2026' },
+        { date: '2026-08-19', name: '黄梓萱', password: 'hzx@0819' },
+        { date: '2026-08-15', name: '马晨曦', password: 'mcx2026!' },
+        { date: '2026-08-11', name: '林瑾瑜', password: 'ljy#0811' },
+        { date: '2026-08-07', name: '高以宁', password: 'gyn2026@' }
       ]
+    }
+  },
+  computed: {
+    pagedData () {
+      const start = (this.currentPage - 1) * this.pageSize
+      return this.tableData.slice(start, start + this.pageSize)
     }
   },
   methods: {

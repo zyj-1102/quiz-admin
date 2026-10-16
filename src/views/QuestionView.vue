@@ -11,7 +11,7 @@
       <el-button type="success" @click="handleAdd">添加题目</el-button>
     </div>
 
-    <el-table :data="tableData" style="width: 100%">
+    <el-table :data="pagedData" style="width: 100%">
       <el-table-column prop="id" label="序号" width="100"></el-table-column>
       <el-table-column prop="question" label="问题" width="180"></el-table-column>
       <el-table-column prop="options" label="选项" width="200"></el-table-column>
@@ -28,8 +28,8 @@
       class="pager"
       background
       layout="prev, pager, next"
-      :total="1000"
-      :page-size="10"
+      :total="tableData.length"
+      :page-size="pageSize"
       :current-page.sync="currentPage"
     ></el-pagination>
 
@@ -69,6 +69,7 @@ export default {
     return {
       keyword: '',
       currentPage: 1,
+      pageSize: 10,
       dialogVisible: false,
       form: {
         question: '',
@@ -79,12 +80,25 @@ export default {
         answer: ''
       },
       tableData: [
-        { id: 1, question: '法国的首都是什么？', options: '巴黎,巴黎,巴黎,巴黎', answer: '巴黎' },
-        { id: 1, question: '法国的首都是什么？', options: '巴黎,巴黎,巴黎,巴黎', answer: '巴黎' },
-        { id: 1, question: '法国的首都是什么？', options: '巴黎,巴黎,巴黎,巴黎', answer: '巴黎' },
-        { id: 1, question: '法国的首都是什么？', options: '巴黎,巴黎,巴黎,巴黎', answer: '巴黎' },
-        { id: 1, question: '法国的首都是什么？', options: '巴黎,巴黎,巴黎,巴黎', answer: '巴黎' }
+        { id: 1, question: '法国的首都是什么？', options: '巴黎,里昂,马赛,尼斯', answer: '巴黎' },
+        { id: 2, question: '下列哪条河流最长？', options: '尼罗河,亚马逊河,长江,密西西比河', answer: '尼罗河' },
+        { id: 3, question: 'Vue 中用于循环渲染的指令是？', options: 'v-if,v-for,v-model,v-bind', answer: 'v-for' },
+        { id: 4, question: 'HTTP 状态码 404 表示什么？', options: '请求成功,资源不存在,服务器内部错误,永久重定向', answer: '资源不存在' },
+        { id: 5, question: '《红楼梦》的作者是谁？', options: '罗贯中,曹雪芹,施耐庵,吴承恩', answer: '曹雪芹' },
+        { id: 6, question: '水的化学式是什么？', options: 'CO2,H2O,O2,NaCl', answer: 'H2O' },
+        { id: 7, question: 'JavaScript 中 typeof null 返回什么？', options: 'null,undefined,object,number', answer: 'object' },
+        { id: 8, question: '一年中白昼最长的节气是？', options: '春分,夏至,秋分,冬至', answer: '夏至' },
+        { id: 9, question: '下列哪项是前端框架？', options: 'Django,Vue,Spring,Flask', answer: 'Vue' },
+        { id: 10, question: '光在真空中的传播速度约为？', options: '3×10^5 km/s,3×10^3 km/s,1×10^6 km/s,3×10^7 km/s', answer: '3×10^5 km/s' },
+        { id: 11, question: '中国的首都是哪座城市？', options: '上海,北京,广州,深圳', answer: '北京' },
+        { id: 12, question: '下列哪个是关系型数据库？', options: 'MySQL,Redis,MongoDB,Memcached', answer: 'MySQL' }
       ]
+    }
+  },
+  computed: {
+    pagedData () {
+      const start = (this.currentPage - 1) * this.pageSize
+      return this.tableData.slice(start, start + this.pageSize)
     }
   },
   methods: {
